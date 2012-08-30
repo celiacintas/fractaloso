@@ -21,18 +21,15 @@ class Star:
 
 class Galaxy:
 
-      def __init__(self, r, neighborhood):
+      def __init__(self, range, neighborhood):
           """Initialize the galaxy with some radius and the chosen neighborhood """
           
           stars = []
           stars.append(Star(0, neighborhood[0], np.random.randint(1,15)))
-          for s in np.arange(1, r):
-              stars.append(Star(s, neighborhood[0], np.random.randint(1,15)))
-              stars.append(Star(s, neighborhood[1], np.random.randint(1,15)))
-              stars.append(Star(s, neighborhood[2], np.random.randint(1,15)))
-              stars.append(Star(s, neighborhood[3], np.random.randint(1,15)))
-              stars.append(Star(s, neighborhood[4], np.random.randint(1,15)))
-              stars.append(Star(s, neighborhood[5], np.random.randint(1,15)))
+          #colocar zip y map
+          for r in np.arange(1, range):
+              for a in neighborhood:
+                  stars.append(Star(r, a/float(r), np.random.randint(1,15)))
               
           self.stars = stars
           
@@ -42,6 +39,7 @@ class Galaxy:
                  
 if __name__ == "__main__":
     neighborhood = [0, 60, 120, 180, 240, 330]
+    vals = [np.arange(7), (0.1, 0.2, 0.3, 0.1, 0.1, 0.1, 0.1)]
     distributionFunc = dis.rv_discrete(name='custm', values=vals)
     myGalaxy = Galaxy(, 1.5 ,neighborhood)
     mlab.show()
