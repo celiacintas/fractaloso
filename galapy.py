@@ -28,8 +28,9 @@ class Galaxy:
     def __init__(self, radio, neighborhood):
         """Initialize the galaxy with some radius
         and the chosen neighborhood """
-        
-        self.distributionFunc = dis.rv_discrete(name='custm', values=[(0, 1), (0.84, 0.16)])
+
+        self.distributionFunc = dis.rv_discrete(name='custm', values=[(0, 1),
+                                                (0.84, 0.16)])
         stars = []
         stars.append(Star(0, neighborhood[0], self.distributionFunc.rvs()))
 
@@ -39,7 +40,6 @@ class Galaxy:
                     self.distributionFunc.rvs())), izip(neighborhood,
                     repeat(r, len(neighborhood))))
             self.stars = stars
-            
         except e:
             print e
 
@@ -47,24 +47,24 @@ class Galaxy:
         """Initialize one star"""
         star[0].state = self.distributionFunc.rvs()
         #print "nacio otra estrella"
-        
+
     def growthFunction(self, star):
         """increases growth of each star"""
         star.state += 1
         try:
-            star.angle = star.angle + 1/float(star.r)
+            star.angle = star.angle + 1 / float(star.r)
         except ZeroDivisionError:
             star.angle = star.angle + 1
-            
-        
+
     def scanning(self):
         """See state of stars and change formations"""
         for s in self.stars:
-            localNeighborhood = ifilter(lambda star: star[1]== star[0].r + 1, izip(self.stars, repeat(s.r, len(self.stars))))
+            localNeighborhood = ifilter(lambda star: star[1] == star[0].r + 1,
+                                        izip(self.stars, repeat(s.r, len(self.stars))))
             map(self.birthFunction, localNeighborhood)
         #aqui envejecemos la galaxia
-        map(self.growthFunction, self.stars)    
-    
+        map(self.growthFunction, self.stars)
+
     def plotting(self):
         """For plotting the stars"""
         #mlab.clf()
@@ -77,14 +77,14 @@ class Galaxy:
         """ """
         activeStars = ifilter(lambda s: s.state != 0, self.stars)
         noActiveStars = ifilter(lambda s: s.state == 0, self.stars)
-        
+
         return len(list(activeStars)), len(list(noActiveStars))
 
 if __name__ == "__main__":
     neighborhood = [0, 60, 120, 180, 240, 330]
     myGalaxy = Galaxy(50, neighborhood)
     print "al comienzo tenemos ", myGalaxy.countOfActiveStars()
-    for t in range(100):
+    for t in range(500):
         myGalaxy.scanning()
     myGalaxy.plotting()
     print "al final tenemos ", myGalaxy.countOfActiveStars()
