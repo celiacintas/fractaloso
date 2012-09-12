@@ -29,15 +29,16 @@ class Galaxy:
         """Initialize the galaxy with some radius
         and the chosen neighborhood """
 
-        self.distributionFunc = dis.rv_discrete(name='custm', values=[(0, 1),
+        self.distributionFuncStars = dis.rv_discrete(name='custm', values=[(0, 1),
                                                 (0.84, 0.16)])
+        self.distributionGas = dis.rv_discrete(name='custm_gas', values=[(0,1),(0.5,0.5)])
         stars = []
-        stars.append(Star(0, neighborhood[0], self.distributionFunc.rvs()))
+        stars.append(Star(0, neighborhood[0], self.distributionFuncStars.rvs()))
 
         try:
-            for r in np.arange(1, radio + 1):
+            for r in np.arange(1, radio + 1,0.5): # para regular el tamaño de la celda
                 map(lambda a: stars.append(Star(a[1], a[0] / float(a[1]),
-                    self.distributionFunc.rvs())), izip(neighborhood,
+                    self.distributionFuncStars.rvs())), izip(neighborhood,
                     repeat(r, len(neighborhood))))
             self.stars = stars
         except e:
@@ -45,11 +46,14 @@ class Galaxy:
 
     def birthFunction(self, star):
         """Initialize one star"""
-        star[0].state = self.distributionFunc.rvs()
+        star[0].state = self.distributionFuncStars.rvs()
         #print "nacio otra estrella"
 
     def growthFunction(self, star):
         """increases growth of each star"""
+        if star.state > 8:
+            star.state = 0
+            
         star.state += 1
         try:
             star.angle = star.angle + 1 / float(star.r)
@@ -65,13 +69,13 @@ class Galaxy:
         #aqui envejecemos la galaxia
         map(self.growthFunction, self.stars)
 
-    def plotting(self):
+    def plottingStars(self, colors):
         """For plotting the stars"""
         #mlab.clf()
         activeStars = ifilter(lambda s: s.state != 0, self.stars)
         map(lambda star: mlab.points3d(star.r * np.cos(star.angle),
             star.r * np.sin(star.angle), star.r * np.cos(star.angle),
-            colormap="copper", scale_factor=.5), activeStars)
+            color=colors[star.state], resolution=20, scale_factor=.5, scale_mode='none'), activeStars)
 
     def countOfActiveStars(self):
         """ """
@@ -79,13 +83,28 @@ class Galaxy:
         noActiveStars = ifilter(lambda s: s.state == 0, self.stars)
 
         return len(list(activeStars)), len(list(noActiveStars))
+    
+    def  plottingInterstellarGas(self):
+        "" ""
+        activeGas = ifilter( lambda s: self.distributionGas.rvs() == 1 & s.state == 0, self.stars)
+        
+        map(lambda star: mlab.points3d(star.r * np.cos(star.angle),
+            star.r * np.sin(star.angle), star.r * np.cos(star.angle),
+            color=(1,0,0), resolution=20, scale_factor=.8, scale_mode='none'), activeGas)
+        
 
 if __name__ == "__main__":
     neighborhood = [0, 60, 120, 180, 240, 330]
+    colors = {1:(1,1,0.9), 2:(1,1,0.6), 3:(1,1,0.4), 4:(1,1,0.2), 
+              5:(1,1,0), 6:(1,0.8,0), 7:(1,0.5,0), 8:(1,0.2,0), 9:(1,0,0)}
+              
     myGalaxy = Galaxy(50, neighborhood)
     print "al comienzo tenemos ", myGalaxy.countOfActiveStars()
-    for t in range(500):
+    for t in range(100):
         myGalaxy.scanning()
-    myGalaxy.plotting()
+    myGalaxy.plottingStars(colors)
+    myGalaxy.plottingInterstellarGas()
     print "al final tenemos ", myGalaxy.countOfActiveStars()
+    #mlab.figure(1, fgcolor=(1, 1, 1), bgcolor=(0, 0, 0))
+    mlab.view(azimuth=230)
     mlab.show()
