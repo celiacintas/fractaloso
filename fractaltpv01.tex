@@ -1,0 +1,213 @@
+\documentclass[12tp]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage[pdftex]{hyperref}
+\usepackage[colorinlistoftodos, textwidth=4cm, shadow]{todonotes}
+
+\RequirePackage{ifpdf} % ¿latex o pdflatex?
+% Configuración de las imágenes
+\ifpdf
+        \usepackage[pdftex]{graphicx}  % Inclusión de imágenes
+	                \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\else
+        \usepackage{graphicx} % Inclusión de imágenes
+                        \DeclareGraphicsExtensions{.eps}
+\fi
+\graphicspath{ {.} } % Ruta respecto al fichero tex principal dónde se buscan imágenes
+
+\renewcommand{\thefootnote}{\Roman{footnote}}
+\hypersetup{colorlinks=false,linkcolor=black,citecolor=black,hidelinks}
+
+%%%%%scabecera
+%\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+%\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del p
+\renewcommand{\baselinestretch}{0.97}
+
+\begin{document}
+\pagestyle{empty} % seleccionamos un estilo
+
+  \title{\bf {Generación de Galaxias Espirales mediante Automatas Celulares.}\\
+  \small{Modelos Fractales y Sistemas Caóticos en Física Computacional y Ciencias Naturales.}} 
+%Universidad Nacional de la Patagonia San Juan Bosco \\[0.1cm] Blvd. Brown 3150 - Puerto Madryn (9120) – Chubut \\ 
+%Tel-Fax: (2804) 472885 / 450272}  }
+  %\subtitle{ Grupo de Investigación de Procesamiento de Imágenes, Facultad de Ingeniería, Universidad Nacional de la Patagonia San Juan Bosco}
+  %\author{Cintas Celia, Delrieux Claudio, Bianchi Gloria, Defossé Nahuel }
+  \author{
+    \small{Cintas Celia}\\
+    \small{cintas.celia@gmail.com}
+  \and
+    \small{Delrieux Claudio}\\
+    \small{cad@uns.edu.ar}
+    %\and
+    %\small{Gonzalez-José Rolando}\\
+    %\small{rolando@cenpat.edu.ar}
+   % \and
+    %\small{Defossé Nahuel}\\
+    %\small{snahuel.defosse@gmail.com}
+}
+
+%\date{}
+%\thispagestyle{empty}
+\maketitle
+
+\begin{abstract}
+%En esta monografía se trata de trabajar conceptos de espacio-tiempo fractal y relativo a la escala, ambos tópicos trabajados por L. Nottale 
+%\footnote{Poner biografia de Nottale} y como se relacionan con el actual entendimiento del tiempo-espacio "Einsteniano".\\
+%Por lo que este texto pasará superficialmente por temas que conciernen a la Teoría de la Relatividad General, luego trabajaremos sobre noción de relativo a la escala
+%acercandonos a la definición de fractal y su aporte en estas teorias emergentes.
+
+
+\textbf{Palabras Clave}: Fractales, Morfología de Galaxias, Galaxia Espiral , Automata Celular.\\
+\end{abstract}
+
+\section{Introducción}
+
+\section{Conceptos Básicos}
+En esta sección daremos los conocimientos mínimos para poder abarcar este trabajo...
+\subsection{Qué es un Automata Celular y cómo es aplicable a galaxias}
+\subsubsection{Autómatas Celulares}
+Los AC proveen un modelo matemático, simple, discreto y deterministico para sistemas biológicos, físicos computacionales y más.
+A pesar de su simple construcción, los AC han demostrado ser capaces de reproducir/generar comportamientos complejos.~\cite{Wolfram1982}
+Un Autómata Celular se puede definir como un sistema dinámico donde el espacio y el tiempo son discretos. Describen la evolución de un sistema espacialmente 
+explícito en función de un conjunto de reglas de evolución de estado, que determinan el cambio de estado de cada celda que 
+constituye el espacio, en función de su propio estado y el estado de un conjunto de celdas vecinas llamadas vecindario.~\cite{Cesimo2004}
+\subsection{Recordando que son las coordenas polares y esféricas}
+Para desarrollar nuestro AC con vecindad radial, utilizamos coordenadas polares para la identificación de cada \emph{célula} en 2D y
+coordenadas esféricas para 3D.\\
+En esta sección daremos las definciones y las ecuaciones para el pasaje a coordenadas cartesianas que fueron empleadas para el ploteo.
+\subsubsection{Coordenadas polares}
+Es un sistema de coordenadas bidimensional en el cual cada punto del plano se determina por un ángulo y una distancia.\\
+De manera más precisa, se toman: un punto $O$ del plano, al que se le llama origen o polo, y una recta dirigida (o rayo, o segmento OL) 
+que pasa por $O$, llamada eje polar (equivalente al eje x del sistema cartesiano), como sistema de referencia. Con este 
+sistema de referencia y una unidad de medida métrica (para poder asignar distancias entre cada par de puntos del plano), todo 
+punto $P$ del plano corresponde a un par ordenado $(r, \theta)$ donde $r$ es la distancia de $P$ al origen y $\theta$ es el 
+ángulo formado entre el eje polar y la recta dirigida $OP$ que va de $O$ a $P$.\\
+Definido un punto en coordenadas polares por su ángulo $\theta$ sobre el eje x, y su distancia $r$ al centro de coordenadas, 
+se tiene:
+\begin{equation}
+x= r \cos \theta \\
+y= r \sen \theta    
+\end{equation}
+Esta conversión nos permite plotear sobre el plano $xy$.\\
+También nombraremos las coordenadas esféricas ya que luego implementaremos nuestra aplicación en 3D.\\
+Las coordenadas esféricas pueden convertirse en coordenadas cartesianas de la siguiente manera:
+Las coordenadas polares también pueden extenderse a tres dimensiones usando las coordenadas $(\rho,\; \varphi,\; \theta)$, 
+donde $\rho$ es la distancia al origen, $\varphi$ es el ángulo con respecto al eje z (medido de 0\textordmasculine a 180\textordmasculine), 
+y $\theta$ es el ángulo con respecto al eje x (igual que en las coordenadas polares, entre 0\textordmasculine y 360\textordmasculine) Este sistema de 
+coordenadas es similar al sistema utilizado para denotar la altitud y la latitud de un punto en la superficie de la Tierra, 
+donde se sitúa el origen en el centro de la Tierra, la latitud $\delta$ es el ángulo complementario de \varphi (es decir, $\delta = 90 − \varphi)$, y la 
+longitud $l$ viene dada por $\theta − 180^\bigcirc .12$
+Las coordenadas esféricas pueden convertirse en coordenadas cartesianas de la siguiente manera:
+\begin{equation*}
+\begin{split}
+x &= \rho  \sen\phi  \cos\theta \\
+y &= \rho  \sen\phi  \sen\theta \\
+z &= \rho  \cos\phi
+\end{split}
+\end{equation*}
+\begin{center}
+\fbox{Todo lo que concierne a definiciones de coordenadas fue sacado de wiiikiii}
+\end{center}
+
+\section{AC en Galaxias}
+Un autómata celular en 2D puede ser usado como un eficiente constructor de galaxias y una herramienta para observar su evolución. ~\cite{Gerola \& Seiden, 1978, ApJ}
+Este modelo mantiene la estructura espiral usando como entrada datos sobre formación estelar, posición, tamaño y velocidad y 
+la rotación de la galaxia.~\cite{Brian}
+\subsection{Pasos para la construcción de una galaxia}
+\begin{itemize}
+    \item Las celdas pueden tener 15 posibles estados (vida de una formación estelar/dt), con cero denotamos la 
+    ausencia de estrellas o formaciones.
+    \item Dada una celda activa, se examina su vecindad y estas tienen una probabilidad de iniciarse de 16 a 22\% ~\cite{Brian}, en este
+    trabajo particularmente se trabajo con 18\%.
+    \item Cada celda tendrá tres datos cruciales, radio y ángulo, para detectar su posición y un estado que nos indica en que
+    etapa se encuentra nuestra formación.
+    \item Luego de examinarlas incremetamos en uno a todas las estrellas activas para denotar su edad que se verá reflejada en
+    una paleta de colores, y aplicamos una función de rotación.  
+\end{itemize}
+En la sección anterior hablabamos de coordenadas polares, en este punto podemos vislumbrar cual será su utilidad.
+Para poder evaluar cada celda debemos conocer su posición y ya que hablamos de generar galaxias del tipo espiral estas coordenadas
+demuestran ser las indicadas.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.5]{Imagenes/vecindad.png}
+        \caption{Ejemplo de vecindad tomada para la generación de galaxias.}
+         \label{fig:vecindad}
+    \end{center}
+    \end{figure}
+
+En la Figura ~\ref{fig:vecindad} podemos observar un ejemplo de la vecindad a la que nos referimos.
+El modelo tomado de ~\cite{Schulman} que consta de N círculos concéntricos, cada anillo es divido en $6N$ regiones.\\
+Cada celda tiene normalmente 6 vecinos, si la celda se encuentra activa, es decir, si se generó una formación de estrellas,
+a medida que avance la simulación también lo harán sus estado (tiempo de vida o mejor dicho edad).\\[0.2cm]
+
+\subsection{Patrones de galaxias espirales}
+La obtención de los patrones no es  del todo trivial, ya que estas no rotan en forma rígida.
+La velocidad de rotación varía rápidamente cerca del centro de la galaxia y en radios superiores se vuelve bastante 
+plana(?).\\[0.2cm] En toda la zona perteneciente a los brazos de la galaxia la velocidad circular es independiente del radio, lo que nos indica 
+que la velocidad circular es independiente del radio y que la velocidad angular no es constante y decrese en forma de $1/r$.
+~\cite{Schulman}.
+  
+\section{Mirando un poco más arriba}
+En general, las galaxias no están aisladas en el espacio sino que suelen ser miembros de agrupaciones de tamaño pequeño o medio, que 
+a su vez forman grandes cúmulos de galaxias. Nuestra galaxia pertenece a una agrupación pequeña de unas 20 galaxias que los astrónomos 
+llaman el Grupo Local. La Vía Láctea y la galaxia Andrómeda son los dos miembros mayores, con 100.000 o 200.000 millones de estrellas 
+cada una.\\[0.2cm]
+Todos estos cúmulos se mueven en la misma dirección; la razón de esto podría ser otro supercúmulo escondido a la vista por nuestra propia 
+galaxia, ya que se tiene conocimiento de supercúmulos a una distancia de hasta 300 millones de años luz. 
+Por lo general, la distribución de cúmulos y supercúmulos en el Universo no es uniforme, sino que supercúmulos de decenas de miles 
+de galaxias están dispuestos en largos filamentos, fibrosos y con forma de lazo, separados por grandes vacíos.\\[0.2cm]
+No existen explicaciones consensuadas para la formación de galaxias o la distribución de las mismas en el universo. El modelo estándar 
+que describe el Big-bang y la evolución del Universo es el modelo de Friedman-Robertson-Walker (FRW). Basado en las ecuaciones de la 
+relatividad general, el modelo FRW asume que el Universo es homogéneo, todos los lugares del cosmos son idénticos y comparten iguales 
+condiciones físicas, esta homogeneidad se ve reflejada en escalas astronómicas inmensas (mayores que los 100 millones de años-luz) ~\cite{Gangui2009}
+e isótropo, para un observador $X$ el universo presenta iguales características en todas las direcciones. 
+Asunción que ha venido en denominarse Principio Cosmológico.~\cite{fractals}\\[0.2cm]
+Recientemente ha surgido una clara imagen de la acumulación jerárquica de galaxias en cúmulos y supercúmulos.
+Argumentan que la aglomeración jerárquica de las galaxias continúa incluso para las grandes escalas, que el universo 
+exhibe una distribución de materia autosimilar a todas las escalas. Si medimos el número de galaxias vecinas $N(R)$, a menos de un radio $R$ 
+alrededor de una galaxia escogida al azar, una distribución fractal nos ofrecería:
+$N(r) = cte * RD$
+donde D es la dimensión fractal y en un espacio euclídeo de dimensión 3 estaría entre 0 y 3. Si el valor D fuera 3 significaría que las 
+galaxias se distribuyen homogéneamente, como supone el punto de vista convencional. Las estimaciones indican sin embargo que esta 
+dimensión es aproximadamente $D = 2.1$. De modo que la distribución de galaxias en el universo es fractal, al menos hastas las escalas que 
+nos permiten explorar con detalle nuestros instrumentos (unos 300 millones de años luz). ~\cite{fractals}.
+
+Desde Peebles(1980) y Mandelbrot(1982) se sabe que la distribución de galaxias en escalas pequeñas es fractal lo que muchos investigadores tratan de 
+demostrar es que a grandes escalas sucede lo mismo por lo que sería invariante respecto a su escala.
+
+\subsection{Modelo Fractal de Charlier}
+Charlier vió al universo como fractal con galaxias como unidades del mismo, cada una contiene $N_1$ estrellas.\\
+\todo{Todo esto es de el paper THE CONCEPT OF FRACTAL COSMOS}
+Luego se definen un \emph{cluster} de galaxias, $G_1$ una galaxia con $N_2$ componentes, luego un \emph{cluster} de \emph{clusters}
+$G_2$ con $N_2$ elementos. Cada $G_i$ cuenta con un radio $R_i$ y una masa correspondiente $M_i$.
+En este modelo se asume por simplicidad que todos son cuerpos esféricos por lo que cada unidad $G_i$ esta compuesta de
+cierta manera talque el radio $p_i$ esta definido por:
+\begin{equation}
+    p_i= {{R_i }\over{N^{1/3}}}
+\end{equation}
+por lo que la distancia promedio entre dos vecinos cercanos en $G_i$ es $2p_i$ y $M_i=N_iM_{i-1}= N_iM_{i-1}N{i-2}...N_2N_1M_0$
+
+Estas definiciones estan dadas de esta forma, ya que eliminan ambas paradojas (de \emph{Seeliger}\footnote{de que se trata} y \emph{Olbers}\footnote{de que se trata}) quedan 
+anuladas, la justificacion de estas queda fuera del alcance de este trabajo.
+\subsection{Vista fractalosa del universo}
+
+Ahora veamos desde una visión más fractalosa y simple de nuestro universo. Como se ve en /todo{mismo paper}. Comparemos los elementos
+de la geometría clásica con fractales.
+
+\section{Conclusiones}
+
+\begin{small}
+\begin{thebibliography}{1}
+\bibitem[Cesimo 2004]{Cesimo2004} Cesimo - Biodesus, Facultad de Ingeniería - Facultad de Ciencias Forestales y Ambientales. Universidad de Los Andes, 2004.
+\bibitem[Wolfram 1982]{Wolfram1982} Cellular Automata as Simple Self-Organizing Systems, 1982.
+\bibitem[Schulman xxx]{Schulman} P. E. Seiden and L. S. Schulman.
+\bibitem[dmae]{fractals}\url{http://www.dmae.upm.es/cursofractales/capitulo8/frames.htm}
+\end{thebibliography}
+\end{small}
+
+
+\end{document}
+
