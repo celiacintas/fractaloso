@@ -31,7 +31,7 @@ class Galaxy:
 
         self.distributionFuncStars = dis.rv_discrete(name='custm', values=[(0, 1),
                                                 (0.84, 0.16)])
-        self.distributionGas = dis.rv_discrete(name='custm_gas', values=[(0,1),(0.5,0.5)])
+        self.distributionGas = dis.rv_discrete(name='custm_gas', values=[(0,1),(0.3,0.7)])
         stars = []
         stars.append(Star(0, neighborhood[0], self.distributionFuncStars.rvs()))
 
@@ -50,14 +50,16 @@ class Galaxy:
         #print "nacio otra estrella"
 
     def growthFunction(self, star):
-        """increases growth of each star"""
+        """Increases growth of each star"""
         if star.state > 8:
             star.state = 0
             
         star.state += 1
         try:
+            #set angular velocity
             star.angle = star.angle + 1 / float(star.r)
         except ZeroDivisionError:
+            #just for save the  day :)
             star.angle = star.angle + 1
 
     def scanning(self):
@@ -71,26 +73,33 @@ class Galaxy:
 
     def plottingStars(self, colors):
         """For plotting the stars"""
-        #mlab.clf()
-        activeStars = ifilter(lambda s: s.state != 0, self.stars)
-        map(lambda star: mlab.points3d(star.r * np.cos(star.angle),
-            star.r * np.sin(star.angle), star.r * np.cos(star.angle),
-            color=colors[star.state], resolution=20, scale_factor=.5, scale_mode='none'), activeStars)
-
+        x = []
+        y = []
+        
+        activeStars = filter(lambda s: s.state != 0, self.stars)
+        map(lambda star: x.append(float(star.r * np.cos(star.angle))), activeStars)
+        map(lambda star: y.append(float(star.r * np.sin(star.angle))), activeStars)
+        
+        return mlab.points3d(x, y, x, resolution=20, scale_factor=.5, scale_mode='none')    
+        
+        
     def countOfActiveStars(self):
-        """ """
+        """Show counter of stars"""
         activeStars = ifilter(lambda s: s.state != 0, self.stars)
         noActiveStars = ifilter(lambda s: s.state == 0, self.stars)
 
         return len(list(activeStars)), len(list(noActiveStars))
     
     def  plottingInterstellarGas(self):
-        "" ""
-        activeGas = ifilter( lambda s: self.distributionGas.rvs() == 1 & s.state == 0, self.stars)
+        """Insert randomness in the production of the galaxy """
+        x = []; y = []
         
-        map(lambda star: mlab.points3d(star.r * np.cos(star.angle),
-            star.r * np.sin(star.angle), star.r * np.cos(star.angle),
-            color=(1,0,0), resolution=20, scale_factor=.8, scale_mode='none'), activeGas)
+        activeGas = filter( lambda s: self.distributionGas.rvs() == 1, self.stars)
+        
+        map(lambda star: x.append(float(star.r * np.cos(star.angle))), activeGas)
+        map(lambda star: y.append(float(star.r * np.sin(star.angle))), activeGas)
+                
+        return mlab.points3d(x, y, x, color = (0.8,0.5,0), resolution=20, scale_factor=.5, scale_mode='none')    
         
 
 if __name__ == "__main__":
@@ -102,9 +111,13 @@ if __name__ == "__main__":
     print "al comienzo tenemos ", myGalaxy.countOfActiveStars()
     for t in range(100):
         myGalaxy.scanning()
-    myGalaxy.plottingStars(colors)
-    myGalaxy.plottingInterstellarGas()
+    points = myGalaxy.plottingStars(colors)
+    otherpoints = myGalaxy.plottingInterstellarGas()
     print "al final tenemos ", myGalaxy.countOfActiveStars()
-    #mlab.figure(1, fgcolor=(1, 1, 1), bgcolor=(0, 0, 0))
-    mlab.view(azimuth=230)
+    
+    print points
+    mlab.pipeline.volume(mlab.pipeline.gaussian_splatter(points))
+    mlab.pipeline.volume(mlab.pipeline.gaussian_splatter(otherpoints))
+    mlab.view(49, 31.5, 52.8, (4.2, 37.3, 20.6))
+    
     mlab.show()
