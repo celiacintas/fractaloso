@@ -1,23 +1,16 @@
 \documentclass[12tp]{article}
-
+\textwidth = 16cm
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{minted}
 \usepackage[pdftex]{hyperref}
 \usepackage[colorinlistoftodos, textwidth=4cm, shadow]{todonotes}
+\usepackage{graphicx}  % Inclusión de imágenes
+\usepackage{anysize}
 
-\RequirePackage{ifpdf} % ¿latex o pdflatex?
-% Configuración de las imágenes
-\ifpdf
-        \usepackage[pdftex]{graphicx}  % Inclusión de imágenes
-	                \DeclareGraphicsExtensions{.pdf,.png,.jpg}
-\else
-        \usepackage{graphicx} % Inclusión de imágenes
-                        \DeclareGraphicsExtensions{.eps}
-\fi
-\graphicspath{ {.} } % Ruta respecto al fichero tex principal dónde se buscan imágenes
-
+\marginsize{3cm}{2cm}{2cm}{2cm}
 \renewcommand{\thefootnote}{\Roman{footnote}}
 \hypersetup{colorlinks=false,linkcolor=black,citecolor=black,hidelinks}
 
@@ -88,7 +81,7 @@ punto $P$ del plano corresponde a un par ordenado $(r, \theta)$ donde $r$ es la 
 Definido un punto en coordenadas polares por su ángulo $\theta$ sobre el eje x, y su distancia $r$ al centro de coordenadas, 
 se tiene:
 \begin{equation}
-x= r \cos \theta \\
+x= r \cos \theta \;\;
 y= r \sen \theta    
 \end{equation}
 Esta conversión nos permite plotear sobre el plano $xy$.\\
@@ -98,29 +91,29 @@ Las coordenadas polares también pueden extenderse a tres dimensiones usando las
 donde $\rho$ es la distancia al origen, $\varphi$ es el ángulo con respecto al eje z (medido de 0\textordmasculine a 180\textordmasculine), 
 y $\theta$ es el ángulo con respecto al eje x (igual que en las coordenadas polares, entre 0\textordmasculine y 360\textordmasculine) Este sistema de 
 coordenadas es similar al sistema utilizado para denotar la altitud y la latitud de un punto en la superficie de la Tierra, 
-donde se sitúa el origen en el centro de la Tierra, la latitud $\delta$ es el ángulo complementario de \varphi (es decir, $\delta = 90 − \varphi)$, y la 
-longitud $l$ viene dada por $\theta − 180^\bigcirc .12$
+donde se sitúa el origen en el centro de la Tierra, la latitud $\delta$ es el ángulo complementario de $\varphi$ (es decir, $\delta = 90 - \varphi)$, y la 
+longitud $l$ viene dada por $\theta - 180^\circ .12$
 Las coordenadas esféricas pueden convertirse en coordenadas cartesianas de la siguiente manera:
-\begin{equation*}
-\begin{split}
-x &= \rho  \sen\phi  \cos\theta \\
-y &= \rho  \sen\phi  \sen\theta \\
-z &= \rho  \cos\phi
-\end{split}
-\end{equation*}
+\begin{equation}
+x = \rho  \sen\phi  \cos\theta \;\;
+y = \rho  \sen\phi  \sen\theta \;\;
+z = \rho  \cos\phi
+\end{equation}
+
 \begin{center}
 \fbox{Todo lo que concierne a definiciones de coordenadas fue sacado de wiiikiii}
 \end{center}
 
 \section{AC en Galaxias}
-Un autómata celular en 2D puede ser usado como un eficiente constructor de galaxias y una herramienta para observar su evolución. ~\cite{Gerola \& Seiden, 1978, ApJ}
+Un autómata celular en 2D puede ser usado como un eficiente constructor de galaxias y una herramienta para observar su evolución. 
+~\cite{kent}
 Este modelo mantiene la estructura espiral usando como entrada datos sobre formación estelar, posición, tamaño y velocidad y 
-la rotación de la galaxia.~\cite{Brian}
+la rotación de la galaxia.~\cite{kent}
 \subsection{Pasos para la construcción de una galaxia}
 \begin{itemize}
     \item Las celdas pueden tener 15 posibles estados (vida de una formación estelar/dt), con cero denotamos la 
     ausencia de estrellas o formaciones.
-    \item Dada una celda activa, se examina su vecindad y estas tienen una probabilidad de iniciarse de 16 a 22\% ~\cite{Brian}, en este
+    \item Dada una celda activa, se examina su vecindad y estas tienen una probabilidad de iniciarse de 16 a 22\% ~\cite{kent}, en este
     trabajo particularmente se trabajo con 18\%.
     \item Cada celda tendrá tres datos cruciales, radio y ángulo, para detectar su posición y un estado que nos indica en que
     etapa se encuentra nuestra formación.
@@ -197,6 +190,97 @@ anuladas, la justificacion de estas queda fuera del alcance de este trabajo.
 Ahora veamos desde una visión más fractalosa y simple de nuestro universo. Como se ve en /todo{mismo paper}. Comparemos los elementos
 de la geometría clásica con fractales.
 
+\section{Implementación: \emph{GalaPy}}
+Para este trabajo se realizo una escueta simulación desde el punto de vista morfológico de las galaxias. Por cuestiones de conocimiento
+previo se utilizó para el desarrollo el lenguaje de programación \emph{Python} y como biblioteca de ploteo \emph{Mayavi}. A continuación 
+detallaremos todas las herramientas/bibliotecas utilizadas.
+\begin{description}
+    \item[Python] Python es un lenguaje de programación que permite trabajar con mayor rapidez e integrar sistemas con mayor eficacia. 
+    Se puede aprender a usar Python y obtener beneficios casi inmediatos en la productividad y reducir los costos de mantenimiento.\\
+    Para más información \url{http://python.org/}
+    \item[Prymatex] Es un editor basado en PyQt, que soporta Bundles de TextMate, contiene Snippets, resaltado de sintaxis, entre otras
+        bondades.\\
+        Para más información \url{http://prymatex.org/}  
+    \item[Ipython] Es un shell interactivo que añade funcionalidades extra al modo interactivo incluido con Python, tales como resaltado de líneas y errores mediante colores, una sintaxis adicional para el shell, autocompletado mediante tabulador de variables, módulos y atributos; entre otras. Es un componente del paquete SciPy.\\
+    Para más información  \url{http://ipython.org/}
+    \item[NumPy] Permite manipular de manera rápida y eficiente arreglos numéricos tales como vectores y matrices (pero también arreglos multidimensionales de rango arbitrario).\\
+       Para más información \url{http://numpy.scipy.org/}
+    \item[SciPy] SciPy contiene módulos para optimización, álgebra lineal, integración, interpolación, 
+       funciones especiales, FFT, procesamiento de señales y de imagen, resolución de ODEs y otras tareas 
+       para la ciencia e ingeniería. Está dirigida al mismo tipo de usuarios que los de aplicaciones como MATLAB, GNU Octave, y Scilab.\\
+       Para más información \url{http://www.scipy.org/}
+    \item[Mayavi] Mayavi2 es un programa interactivo (en forma opcional) que permite elaborar gráficos en 3D de los datos 
+    científicos en Python con scipy. Es el sucesor de MayaVi para la visualización 3D.\\
+    Para más información \url{http://mayavi.sourceforge.net/}
+\end{description}
+\subsection{Tips pa' remarcar}
+Para la distribución de las  estrellas tomamos la función detallada en ~\cite{kent}. En el código se puede ver flejada en
+\emph{distributionFuncStars}:
+\begin{small}
+\begin{minted}{python}
+    ....
+    ....
+    
+    class Galaxy:
+    """Clase galaxia"""
+
+    def __init__(self, radio, neighborhood):
+        """Initialize the galaxy with some radius
+        and the chosen neighborhood """
+
+        self.distributionFuncStars = dis.rv_discrete(name='custm', values=[(0, 1),
+                                                (0.84, 0.16)])
+        self.distributionGas = dis.rv_discrete(name='custm_gas', values=[(0,1),(0.3,0.7)])
+    ....
+    ....
+\end{minted}
+\end{small}
+Para agregar un poco más de aleatoriedad se agrego la funcion de distribución \emph{distributionGas}. que em um comienzo se 
+trató de tomar la función "real" pero se tuvo que modificar para que esta aleatoriedad aparezca. Podemos ver los resultados
+generados tomando estas funciones dedistribución en la figura ~\ref{fig:gala_1}
+\begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.3]{outputs/galaxia_1.png}
+        \caption{Galaxia generada con \emph{GalaPy}.}
+         \label{fig:gala_1}
+        \end{center}
+\end{figure}
+Para reflejar la velocidad angular explicada en la sección anterior se implemento dentro de la clase \emph{galaxia} la siguiente función.
+\begin{small}
+    \begin{minted}{python}
+        .... ... 
+        
+     def growthFunction(self, star):
+        """Increases growth of each star"""
+        if star.state > 15:
+            star.state = 0
+        star.state += 1
+        try:
+            #set angular velocity
+            star.angle = star.angle + 1 / float(star.r)    
+        ....
+        ....
+        ....
+    \end{minted}
+\end{small}
+La forma en que se rastrillo la galaxia, es decir, ver el estado de los vecinos aledaños a un cúmulo estelar, para saber si se 
+debia crear un nuevo cúmulo o no, se muestra a continuación en el código:
+\begin{small}
+    \begin{minted}{python}
+        ....
+        ....
+        
+     def scanning(self):
+        """See state of stars and change formations"""
+        for s in self.stars:
+            localNeighborhood = ifilter(lambda star: star[1] == star[0].r + 1,
+                                        izip(self.stars, repeat(s.r, len(self.stars))))
+            map(self.birthFunction, localNeighborhood)
+        #aqui envejecemos la galaxia
+        map(self.growthFunction, self.stars)
+        ....
+    \end{minted}
+\end{small}
 \section{Conclusiones}
 
 \begin{small}
@@ -204,6 +288,10 @@ de la geometría clásica con fractales.
 \bibitem[Cesimo 2004]{Cesimo2004} Cesimo - Biodesus, Facultad de Ingeniería - Facultad de Ciencias Forestales y Ambientales. Universidad de Los Andes, 2004.
 \bibitem[Wolfram 1982]{Wolfram1982} Cellular Automata as Simple Self-Organizing Systems, 1982.
 \bibitem[Schulman xxx]{Schulman} P. E. Seiden and L. S. Schulman.
+\bibitem[Kent xxx]{kent}Dr. Brian R. Kent, National	Radio Astronomy Observatory, Morphology and Dynamics of Galaxies with Cellular Automata.
+	
+  
+
 \bibitem[dmae]{fractals}\url{http://www.dmae.upm.es/cursofractales/capitulo8/frames.htm}
 \end{thebibliography}
 \end{small}
