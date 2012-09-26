@@ -1,9 +1,8 @@
 #! /usr/bin/python2
 # -*- coding: utf-8 -*-
 
-# Using AC for the construction of galaxies with
-# Exponentianl Disk Potential as Rotation Dynamic
-#
+# Using AC for the construction of galaxies
+
 
 import numpy as np
 import scipy.stats.distributions as dis
