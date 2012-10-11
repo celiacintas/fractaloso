@@ -1,0 +1,11 @@
+1.-*-. Datos utilizados como entrada.
+Electroencefalografías (EEG), es una exploración neurofisiológica que se basa en el 
+registro de la actividad bioeléctrica cerebral en condiciones basales de reposo o durante diversas activaciones.
+Los datos con los que trabajamos fueron tomados de http://epileptologie-bonn.de/cms/front_content.php?idcat=0&idart=0&client=1&lang=3&error=1 de la Universidad de Bonn.
+
+Las muestras descargadas cuentan con 100 archivos y en cada archivo contamos con 4096 muestras de un EEG en código ASCII.
+
+
+2.-*-. Métodos Utilizados - DFA
+DFA trata de cuantificar la autosemejanza de series temporales
+
