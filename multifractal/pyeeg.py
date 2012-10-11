@@ -793,13 +793,14 @@ def dfa(X, Ave = None, L = None):
 
 	Returns
 	-------
-	F    :  list of values for function F
-
 	Alpha:
 		integer
 		the result of DFA analysis, thus the slope of fitting line of log(F(n)) 
 		vs. log(n). where n is the 
+	
+	F :	function F  for plotting later
 
+	L : 	for plotting ... 
 	Examples
 	--------
 	>>> import pyeeg
