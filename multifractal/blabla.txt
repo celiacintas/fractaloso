@@ -1,11 +1,30 @@
 1.-*-. Datos utilizados como entrada.
-ElectroencefalografÃ­as (EEG), es una exploraciÃ³n neurofisiolÃ³gica que se basa en el 
-registro de la actividad bioelÃ©ctrica cerebral en condiciones basales de reposo o durante diversas activaciones.
-Los datos con los que trabajamos fueron tomados de http://epileptologie-bonn.de/cms/front_content.php?idcat=0&idart=0&client=1&lang=3&error=1 de la Universidad de Bonn.
+Electroencefalografías (EEG), es una exploración neurofisiológica que se basa 
+en el registro de la actividad bioeléctrica cerebral en condiciones basales de 
+reposo o durante diversas activaciones.
+Los datos con los que trabajamos fueron tomados de 
+http://epileptologie-bonn.de/cms/front_content.php?idcat=0&idart=0&client=1&lang=3&error=1 de la Universidad de Bonn.
 
-Las muestras descargadas cuentan con 100 archivos y en cada archivo contamos con 4096 muestras de un EEG en cÃ³digo ASCII.
+Las muestras descargadas cuentan con 100 archivos y en cada archivo 
+contamos con 4096 muestras de un EEG en código ASCII.
+(para nuestro análisis tomamos un solo archivo)
 
+2.-*-. Métodos Utilizados - DFA
+DFA trata de cuantificar la autosemejanza de series temporales, 
+utilizando biblioteca pyeeg con pequeños cambios realizados en esta para obtener 
+los resultados requeridos.
 
-2.-*-. MÃ©todos Utilizados - DFA
-DFA trata de cuantificar la autosemejanza de series temporales, utilizando biblioteca pyeeg con miiinimas mod para ploteos siguietnes. ..
+3.-*-. Experimentos
+Por un lado se tomo los datos originales de uno de los archivos y en otro caso se
+'randomizo' %(espanglish) la misma muestra, en esta se puede observar que se 
+convirtió en ruido blanco, por lo que un instante no existe correlación con ningun valor
+previo. En estos casos \alpha = 0.5.
 
+Ahora cuando trabajamos con los datos obtuvimos un   0.5 < \alpha  < 1 lo cual indica
+indicates persistent long-range power-law correlations
+
+El valor \alpha se puede ver como un indicador de "aspereza", mientras más grande es
+\alpha más suave es la serie temporal.
+
+En este experimento se tomo un electroencefalograma y se trato de observar si contenia 
+un comportamiento fractal
