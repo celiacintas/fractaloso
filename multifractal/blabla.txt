@@ -7,5 +7,5 @@ Las muestras descargadas cuentan con 100 archivos y en cada archivo contamos con
 
 
 2.-*-. Métodos Utilizados - DFA
-DFA trata de cuantificar la autosemejanza de series temporales
+DFA trata de cuantificar la autosemejanza de series temporales, utilizando biblioteca pyeeg con miiinimas mod para ploteos siguietnes. ..
 

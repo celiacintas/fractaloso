@@ -12,22 +12,38 @@ from pyeeg import dfa
 import pylab 
 from scipy import log10
 from numpy import arange
+from random import randrange
 
-fileA = open('F/F003.txt')
-data = [float(k) for k in fileA.readlines()]
+def randomize(data):
+	randomData = []
+	for i in range(len(data)-1):
+		randomData.append(data[randrange(0, len(data)-1)])
+	return randomData
 
-alpha, forplot, forplotN = dfa(data)
+if __name__ == "__main__":
+	
+	fileA = open('F/F003.txt')
+	originalData = [float(k) for k in fileA.readlines()]
+	randomData = randomize(originalData)
+	#get the dfa for both set of values
+	alphaO, forplotO, forplotNO = dfa(originalData)
+	alphaR, forplotR, forplotNR = dfa(randomData)
 
-fig = pylab.figure()
-ax = fig.add_subplot(3, 1, 1)
-ax.plot(log10(forplotN), forplot, 'r-')
-pylab.text(2,3, r'$\alpha = %f $'%(alpha), multialignment = 'center')
-
-bx = fig.add_subplot(3, 1, 2)
-bx.plot(data, 'g-')
-
-cx = fig.add_subplot(3, 1, 3)
-cx.plot(data, 'b-')
-
-pylab.grid(True)
-pylab.show()
+	#plot the results
+	fig = pylab.figure()
+	ax = fig.add_subplot(3, 1, 1)
+	ori = ax.plot(log10(forplotNO), forplotO, 'b-', label = "Original Data")
+	ran = ax.plot(log10(forplotNR), forplotR, 'g-', label = "Random Data")
+	pylab.title("DFA")
+	pylab.legend([ori[0], ran[0]], ['Original Data','Random Data'])
+	pylab.text(2,3, r'$\alpha Original = %f $'%(alphaO), multialignment = 'center')
+	pylab.text(2,2, r'$\alpha Random  = %f $'%(alphaR), multialignment = 'center')
+	#plot the original and randomize data
+	bx = fig.add_subplot(3, 1, 2)
+	bx.plot(randomData, 'g-')
+	pylab.title("Random Data")
+	cx = fig.add_subplot(3, 1, 3)
+	cx.plot(originalData, 'b-')
+	pylab.title("Original Data")
+	
+	pylab.show()

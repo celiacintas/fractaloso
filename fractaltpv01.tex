@@ -103,6 +103,13 @@ z = \rho  \cos\phi
 \begin{center}
 \fbox{Todo lo que concierne a definiciones de coordenadas fue sacado de wiiikiii}
 \end{center}
+\section{Autómatas celulares y fractales}
+Los autómatas celulares consisten en un sistema de reglas qe simula el crecimiento de 
+células o organismos, estos autómatas celulares pueden crear patrones que desemboquen
+en fractales\footnote{Un fractal es una forma geométrica irregular o fragmentada, que se puede subdividir en partes
+cada uno de los cuales es (al menos aproximadamente) una copia de tamaño reducido de la totalidad (auto-
+similitud). Dimensión de fractales es generalmente no entero.~\cite{claseT}}. De hecho, fractales obtenidos con AC son muy importantes para la simulación
+de crecimiento o comportamiento de sistemas en general. ~\cite{othersite}.
 
 \section{AC en Galaxias}
 Un autómata celular en 2D puede ser usado como un eficiente constructor de galaxias y una herramienta para observar su evolución. 
@@ -142,53 +149,6 @@ La velocidad de rotación varía rápidamente cerca del centro de la galaxia y e
 plana(?).\\[0.2cm] En toda la zona perteneciente a los brazos de la galaxia la velocidad circular es independiente del radio, lo que nos indica 
 que la velocidad circular es independiente del radio y que la velocidad angular no es constante y decrese en forma de $1/r$.
 ~\cite{Schulman}.
-  
-\section{Mirando un poco más arriba}
-En general, las galaxias no están aisladas en el espacio sino que suelen ser miembros de agrupaciones de tamaño pequeño o medio, que 
-a su vez forman grandes cúmulos de galaxias. Nuestra galaxia pertenece a una agrupación pequeña de unas 20 galaxias que los astrónomos 
-llaman el Grupo Local. La Vía Láctea y la galaxia Andrómeda son los dos miembros mayores, con 100.000 o 200.000 millones de estrellas 
-cada una.\\[0.2cm]
-Todos estos cúmulos se mueven en la misma dirección; la razón de esto podría ser otro supercúmulo escondido a la vista por nuestra propia 
-galaxia, ya que se tiene conocimiento de supercúmulos a una distancia de hasta 300 millones de años luz. 
-Por lo general, la distribución de cúmulos y supercúmulos en el Universo no es uniforme, sino que supercúmulos de decenas de miles 
-de galaxias están dispuestos en largos filamentos, fibrosos y con forma de lazo, separados por grandes vacíos.\\[0.2cm]
-No existen explicaciones consensuadas para la formación de galaxias o la distribución de las mismas en el universo. El modelo estándar 
-que describe el Big-bang y la evolución del Universo es el modelo de Friedman-Robertson-Walker (FRW). Basado en las ecuaciones de la 
-relatividad general, el modelo FRW asume que el Universo es homogéneo, todos los lugares del cosmos son idénticos y comparten iguales 
-condiciones físicas, esta homogeneidad se ve reflejada en escalas astronómicas inmensas (mayores que los 100 millones de años-luz) ~\cite{Gangui2009}
-e isótropo, para un observador $X$ el universo presenta iguales características en todas las direcciones. 
-Asunción que ha venido en denominarse Principio Cosmológico.~\cite{fractals}\\[0.2cm]
-Recientemente ha surgido una clara imagen de la acumulación jerárquica de galaxias en cúmulos y supercúmulos.
-Argumentan que la aglomeración jerárquica de las galaxias continúa incluso para las grandes escalas, que el universo 
-exhibe una distribución de materia autosimilar a todas las escalas. Si medimos el número de galaxias vecinas $N(R)$, a menos de un radio $R$ 
-alrededor de una galaxia escogida al azar, una distribución fractal nos ofrecería:
-$N(r) = cte * RD$
-donde D es la dimensión fractal y en un espacio euclídeo de dimensión 3 estaría entre 0 y 3. Si el valor D fuera 3 significaría que las 
-galaxias se distribuyen homogéneamente, como supone el punto de vista convencional. Las estimaciones indican sin embargo que esta 
-dimensión es aproximadamente $D = 2.1$. De modo que la distribución de galaxias en el universo es fractal, al menos hastas las escalas que 
-nos permiten explorar con detalle nuestros instrumentos (unos 300 millones de años luz). ~\cite{fractals}.
-
-Desde Peebles(1980) y Mandelbrot(1982) se sabe que la distribución de galaxias en escalas pequeñas es fractal lo que muchos investigadores tratan de 
-demostrar es que a grandes escalas sucede lo mismo por lo que sería invariante respecto a su escala.
-
-\subsection{Modelo Fractal de Charlier}
-Charlier vió al universo como fractal con galaxias como unidades del mismo, cada una contiene $N_1$ estrellas.\\
-\todo{Todo esto es de el paper THE CONCEPT OF FRACTAL COSMOS}
-Luego se definen un \emph{cluster} de galaxias, $G_1$ una galaxia con $N_2$ componentes, luego un \emph{cluster} de \emph{clusters}
-$G_2$ con $N_2$ elementos. Cada $G_i$ cuenta con un radio $R_i$ y una masa correspondiente $M_i$.
-En este modelo se asume por simplicidad que todos son cuerpos esféricos por lo que cada unidad $G_i$ esta compuesta de
-cierta manera talque el radio $p_i$ esta definido por:
-\begin{equation}
-    p_i= {{R_i }\over{N^{1/3}}}
-\end{equation}
-por lo que la distancia promedio entre dos vecinos cercanos en $G_i$ es $2p_i$ y $M_i=N_iM_{i-1}= N_iM_{i-1}N{i-2}...N_2N_1M_0$
-
-Estas definiciones estan dadas de esta forma, ya que eliminan ambas paradojas (de \emph{Seeliger}\footnote{de que se trata} y \emph{Olbers}\footnote{de que se trata}) quedan 
-anuladas, la justificacion de estas queda fuera del alcance de este trabajo.
-\subsection{Vista fractalosa del universo}
-
-Ahora veamos desde una visión más fractalosa y simple de nuestro universo. Como se ve en /todo{mismo paper}. Comparemos los elementos
-de la geometría clásica con fractales.
 
 \section{Implementación: \emph{GalaPy}}
 Para este trabajo se realizo una escueta simulación desde el punto de vista morfológico de las galaxias. Por cuestiones de conocimiento
@@ -281,7 +241,58 @@ debia crear un nuevo cúmulo o no, se muestra a continuación en el código:
         ....
     \end{minted}
 \end{small}
-\section{Conclusiones}
+
+\appendix
+\section{Mirando un poco más arriba}
+En este trabajo se vio la fractalidad desde el punto de vista de la generación de galaxias, pero dentro de la cosmología podemos
+irnos un poco más lejos y tratar de ver la distribución que refleja el cosmos, a continuación realizamos una breve presentación de 
+varias lecturas sobre este tema.\\[0.2cm]
+En general, las galaxias no están aisladas en el espacio sino que suelen ser miembros de agrupaciones de tamaño pequeño o medio, que 
+a su vez forman grandes cúmulos de galaxias. Nuestra galaxia pertenece a una agrupación pequeña de unas 20 galaxias que los astrónomos 
+llaman el Grupo Local. La Vía Láctea y la galaxia Andrómeda son los dos miembros mayores, con 100.000 o 200.000 millones de estrellas 
+cada una.\\[0.2cm]
+Todos estos cúmulos se mueven en la misma dirección; la razón de esto podría ser otro supercúmulo escondido a la vista por nuestra propia 
+galaxia, ya que se tiene conocimiento de supercúmulos a una distancia de hasta 300 millones de años luz. 
+Por lo general, la distribución de cúmulos y supercúmulos en el Universo no es uniforme, sino que supercúmulos de decenas de miles 
+de galaxias están dispuestos en largos filamentos, fibrosos y con forma de lazo, separados por grandes vacíos.\\[0.2cm]
+No existen explicaciones consensuadas para la formación de galaxias o la distribución de las mismas en el universo. El modelo estándar 
+que describe el Big-bang y la evolución del Universo es el modelo de Friedman-Robertson-Walker (FRW). Basado en las ecuaciones de la 
+relatividad general, el modelo FRW asume que el Universo es homogéneo, todos los lugares del cosmos son idénticos y comparten iguales 
+condiciones físicas, esta homogeneidad se ve reflejada en escalas astronómicas inmensas (mayores que los 100 millones de años-luz) ~\cite{Gangui2009}
+e isótropo, para un observador $X$ el universo presenta iguales características en todas las direcciones. 
+Asunción que ha venido en denominarse Principio Cosmológico.~\cite{fractals}\\[0.2cm]
+Recientemente ha surgido una clara imagen de la acumulación jerárquica de galaxias en cúmulos y supercúmulos.
+Argumentan que la aglomeración jerárquica de las galaxias continúa incluso para las grandes escalas, que el universo 
+exhibe una distribución de materia autosimilar a todas las escalas. Si medimos el número de galaxias vecinas $N(R)$, a menos de un radio $R$ 
+alrededor de una galaxia escogida al azar, una distribución fractal nos ofrecería:
+$N(r) = cte * RD$
+donde D es la dimensión fractal y en un espacio euclídeo de dimensión 3 estaría entre 0 y 3. Si el valor D fuera 3 significaría que las 
+galaxias se distribuyen homogéneamente, como supone el punto de vista convencional. Las estimaciones indican sin embargo que esta 
+dimensión es aproximadamente $D = 2.1$. De modo que la distribución de galaxias en el universo es fractal, al menos hastas las escalas que 
+nos permiten explorar con detalle nuestros instrumentos (unos 300 millones de años luz). ~\cite{fractals}. Desde Peebles(1980) y Mandelbrot(1982) se sabe que la distribución de galaxias en escalas pequeñas es fractal lo que muchos investigadores tratan de 
+demostrar es que a grandes escalas sucede lo mismo por lo que sería invariante respecto a su escala.
+
+\subsection{Modelo Fractal de Charlier}
+Charlier vió al universo como fractal con galaxias como unidades del mismo, cada una contiene $N_1$ estrellas.\\
+\todo{Todo esto es de el paper THE CONCEPT OF FRACTAL COSMOS}
+Luego se definen un \emph{cluster} de galaxias, $G_1$ una galaxia con $N_2$ componentes, luego un \emph{cluster} de \emph{clusters}
+$G_2$ con $N_2$ elementos. Cada $G_i$ cuenta con un radio $R_i$ y una masa correspondiente $M_i$.
+En este modelo se asume por simplicidad que todos son cuerpos esféricos por lo que cada unidad $G_i$ esta compuesta de
+cierta manera talque el radio $p_i$ esta definido por:
+\begin{equation}
+    p_i= {{R_i }\over{N^{1/3}}}
+\end{equation}
+por lo que la distancia promedio entre dos vecinos cercanos en $G_i$ es $2p_i$ y $M_i=N_iM_{i-1}= N_iM_{i-1}N{i-2}...N_2N_1M_0$
+
+Estas definiciones estan dadas de esta forma, ya que eliminan ambas paradojas (de \emph{Seeliger}\footnote{de que se trata} y \emph{Olbers}\footnote{de que se trata}) quedan 
+anuladas, la justificacion de estas queda fuera del alcance de este trabajo.
+\subsection{Vista fractalosa del universo}
+
+Ahora veamos desde una visión más fractalosa y simple de nuestro universo. Como se ve en /todo{mismo paper}. Comparemos los elementos
+de la geometría clásica con fractales.
+
+\section{Pequeños cambios hechos con OpenCL}
+Agregar un ejemplo de cambios trabajados
 
 \begin{small}
 \begin{thebibliography}{1}
@@ -289,9 +300,9 @@ debia crear un nuevo cúmulo o no, se muestra a continuación en el código:
 \bibitem[Wolfram 1982]{Wolfram1982} Cellular Automata as Simple Self-Organizing Systems, 1982.
 \bibitem[Schulman xxx]{Schulman} P. E. Seiden and L. S. Schulman.
 \bibitem[Kent xxx]{kent}Dr. Brian R. Kent, National	Radio Astronomy Observatory, Morphology and Dynamics of Galaxies with Cellular Automata.
-	
+\bibitem[Stosic 2012]{claseT}Fractal and multifractal analysis of complex systems, Dr. Tatijana Stosic.
   
-
+\bibitem[Oracle Education Fundation]{othersite}\url{http://library.thinkquest.org/26242/full/types/ch7.html}
 \bibitem[dmae]{fractals}\url{http://www.dmae.upm.es/cursofractales/capitulo8/frames.htm}
 \end{thebibliography}
 \end{small}
