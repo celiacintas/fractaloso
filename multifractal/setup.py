@@ -1,10 +1,6 @@
-# Used successfully in Python2.5 with matplotlib 0.91.2 and PyQt4 (and Qt 4.3.3)
 from distutils.core import setup
 import py2exe
 
-# We need to exclude matplotlib backends not being used by this executable.  You may find
-# that you need different excludes to create a working executable with your chosen backend.
-# We also need to include include various numerix libraries that the other functions call.
 from distutils.filelist import findall
 import os
 import matplotlib
