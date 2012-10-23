@@ -11,7 +11,7 @@ contamos con 4096 muestras de un EEG en código ASCII.
 
 2.-*-. Métodos Utilizados - DFA
 DFA trata de cuantificar la autosemejanza de series temporales, 
-utilizando biblioteca pyeeg con pequeños cambios realizados en esta para obtener 
+utilizando biblioteca pyeeg con cambios propios realizados en esta para obtener 
 los resultados requeridos.
 
 3.-*-. Experimentos
@@ -21,10 +21,17 @@ convirtió en ruido blanco, por lo que un instante no existe correlación con ning
 previo. En estos casos \alpha = 0.5.
 
 Ahora cuando trabajamos con los datos obtuvimos un   0.5 < \alpha  < 1 lo cual indica
-indicates persistent long-range power-law correlations
+persistent long-range power-law correlations http://www.physionet.org/tutorials/fmnc/node6.html
 
 El valor \alpha se puede ver como un indicador de "aspereza", mientras más grande es
 \alpha más suave es la serie temporal.
+En EEG el valor de \alpha nos puede indicar en que estado se encontraba el individuo en 
+ese momento : despierto, antes de entrar a una fase en particular, etc.
+(Se puede ver más detallado en el doc que te adjunto).
 
-En este experimento se tomo un electroencefalograma y se trato de observar si contenia 
-un comportamiento fractal
+
+4.-*-. REFERENCIAS
+
+	1.- http://www.hindawi.com/journals/cin/2011/406391/
+	2.- http://www.physionet.org/tutorials/fmnc/node7.html
+	3.- Correlation structures in neurological time series, Charlotte Strandkvist
