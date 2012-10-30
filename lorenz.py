@@ -12,7 +12,7 @@ def lorenzInt(xyz, t):
 
 if __name__ == '__main__':
 	xyzInitial = [0, 1, 1.05]
-	t = arange(0, 100, 0.01)
+	t = arange(0, 200, 0.01)
 	lorenzSolution = odeint(lorenzInt, xyzInitial, t)
 	#plot part
 	fig = plt.figure()
