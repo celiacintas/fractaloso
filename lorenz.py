@@ -4,7 +4,7 @@ from scipy.integrate import odeint
 from scipy import arange
 
 
-def lorenz_int(xyz, t):
+def lorenzInt(xyz, t):
 	sigma = 10
 	rho = 28
 	beta = 8.0/3
@@ -13,11 +13,11 @@ def lorenz_int(xyz, t):
 if '__name__' == '__main__':
 	xyzInitial = [0, 1, 1.05]
 	t = arange(0, 100, 0.01)
-	lorenz_sol = odeint(lorenz_int, xyzInitial, t)
+	lorenzSolution = odeint(lorenzInt, xyzInitial, t)
 	#plot part
 	fig = plt.figure()
 	ax = Axes3D(fig)
-	ax.plot([x[0] for x in lorenz_sol], 
-		[y[1] for y in lorenz_sol], 
-		[z[2] for z in lorenz_sol])
+	ax.plot([x[0] for x in lorenzSolution], 
+		[y[1] for y in lorenzSolution], 
+		[z[2] for z in lorenzSolution])
 	plt.show()
