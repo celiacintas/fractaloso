@@ -6,15 +6,15 @@ import numpy as np
 
 
 outputDer =[]
-alpha = 2.6
-x = xd = 0.2
-derivadaDeVerhus = lambda a,x : a*(1-2*x)
+alpha = 0.9
+xd = 0.2
+derivadaDeVerhus = lambda a,x : (a*x)*(1-x)
 
 for i in range(50):
     xd = derivadaDeVerhus(alpha, xd)
     outputDer.append([derivadaDeVerhus(alpha, xd)])
-    xd = np.abs(xd)
-    if (xd < 1):
+    #xd = np.abs(xd)
+    """if (xd < 1):
         print "es estable", xd
         pl.annotate("prueba",xy =(i,xd), xytext = (-20, 20))
     elif (xd == 1):
@@ -24,5 +24,6 @@ for i in range(50):
         print "es inestable", xd
         pl.annotate("prueba 3", xy =(i,xd), xytext = (-20, 20))
         #es mayor
-pl.plot(range(50),outputDer,'r^')        
+    """
+pl.plot(range(50),outputDer,'ro-')        
 pl.show()
