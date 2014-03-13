@@ -1,23 +1,24 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-#The data analyzed in our study is available on this page. 
-# http://epileptologie-bonn.de/cms/front_content.php?idcat=193&lang=3
-#The sampling rate of the data was 173.61 Hz. For a more 
-#detailed description of the data please refer to the manuscript
-#Please note, however, that the time series have the spectral 
-#bandwith of the aquisition system, which is 0.5 Hz to 85 Hz.
-
+"""The data analyzed in our study is available on this page. 
+ http://epileptologie-bonn.de/cms/front_content.php?idcat=193&lang=3
+The sampling rate of the data was 173.61 Hz. For a more 
+detailed description of the data please refer to the manuscript
+Please note, however, that the time series have the spectral 
+bandwith of the aquisition system, which is 0.5 Hz to 85 Hz.
+"""
 from pyeeg import dfa
 import pylab 
 from scipy import log10
-from numpy import arange, loadtxt
+from numpy import arange, loadtxt, random
 from random import randrange
 
 def randomize(data):
 	randomData = []
 	for i in range(len(data)-1):
 		randomData.append(data[randrange(0, len(data)-1)])
+	
 	return randomData
 
 if __name__ == "__main__":
