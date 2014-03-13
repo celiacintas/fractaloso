@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	ax = fig.add_subplot(3, 1, 1)
 	ori = ax.plot(log10(forplotNO), forplotO, 'b-', label = "Original Data")
 	ran = ax.plot(log10(forplotNR), forplotR, 'g-', label = "Random Data")
-	ax.plot(espectrum, 'ro')
+
 	pylab.title("DFA")
 	pylab.legend([ori[0], ran[0]], ['Original Data','Random Data'])
 	pylab.text(2,3, r'$\alpha Original = %f $'%(alphaO), multialignment = 'center')
