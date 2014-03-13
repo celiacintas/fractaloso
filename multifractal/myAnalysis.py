@@ -1,5 +1,5 @@
-#! /usr/bin/python2
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 #The data analyzed in our study is available on this page. 
 # http://epileptologie-bonn.de/cms/front_content.php?idcat=193&lang=3
@@ -11,7 +11,7 @@
 from pyeeg import dfa
 import pylab 
 from scipy import log10
-from numpy import arange
+from numpy import arange, loadtxt
 from random import randrange
 
 def randomize(data):
@@ -22,13 +22,12 @@ def randomize(data):
 
 if __name__ == "__main__":
 	
-	fileA = open('F/F003.txt')
-	originalData = [float(k) for k in fileA.readlines()]
+	originalData = loadtxt('F/F003.txt').T
 	randomData = randomize(originalData)
 	#get the dfa for both set of values
 	alphaO, forplotO, forplotNO = dfa(originalData)
 	alphaR, forplotR, forplotNR = dfa(randomData)
-	
+
 	#plot the results
 	fig = pylab.figure()
 	ax = fig.add_subplot(3, 1, 1)
@@ -47,5 +46,5 @@ if __name__ == "__main__":
 	cx = fig.add_subplot(3, 1, 3)
 	cx.plot(originalData, 'b-')
 	pylab.title("Original Data")
-	
+
 	pylab.show()
