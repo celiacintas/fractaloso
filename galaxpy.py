@@ -10,7 +10,7 @@ from mayavi import mlab
 from itertools import repeat, izip, ifilter
 
 
-class Star:
+class Star(object):
     "Clase para definir una Estrella"""
 
     def __init__(self, r, angle, state=0):
@@ -20,7 +20,7 @@ class Star:
         self.state = state
 
 
-class Galaxy:
+class Galaxy(object):
     """Clase galaxia"""
 
     def __init__(self, radio, neighborhood):
